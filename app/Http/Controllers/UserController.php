@@ -15,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->isAdmin()) {
+        /** @var User|null $currentUser */
+        $currentUser = Auth::user();
+        if ($currentUser !== null && $currentUser->isAdmin()) {
             return UserResource::collection(User::paginate(10));
         }
         return response()->json(["message" => "Forbidden"], 403);
@@ -28,7 +30,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if (Auth::user()->isAdmin()) {
+        /** @var User|null $currentUser */
+        $currentUser = Auth::user();
+        if ($currentUser !== null && $currentUser->isAdmin()) {
             return new UserResource($user);
         }
         return  response()->json(["message" => "Forbidden"], 403);
