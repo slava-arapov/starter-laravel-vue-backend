@@ -1,4 +1,6 @@
-<?php /** @noinspection DuplicatedCode */
+<?php
+
+/** @noinspection DuplicatedCode */
 
 namespace App\Actions\Fortify;
 
@@ -14,23 +16,22 @@ class UpdateUserPassword implements UpdatesUserPasswords
      * Validate and update the user's password.
      *
      * @param mixed $user
-     * @param array $input
-     * @return void
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update($user, array $input)
+    public function update($user, array $input): void
     {
         /** @var \Illuminate\Validation\Validator $validator */
         $validator = Validator::make($input, [
             'current_password' => ['required', 'string'],
             'password' => $this->passwordRules(),
         ])->after(
-            /** @param \Illuminate\Validation\Validator $validator */
+            /**
+             * @param \Illuminate\Validation\Validator $validator
+             * @psalm-suppress PossiblyInvalidArgument
+             */
             function ($validator) use ($user, $input) {
-                if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
-                    /**
-                     * @psalm-suppress PossiblyInvalidArgument
-                     */
+                if (!isset($input['current_password']) || !Hash::check($input['current_password'], $user->password)) {
                     $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
                 }
             }

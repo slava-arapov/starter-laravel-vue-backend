@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Exception;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
 
 class AvatarController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
      * @return \App\Http\Resources\UserResource|\Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         try {
             // ToDo: Delete old avatar file
-            /** @var \App\Models\User|null $user */
+            /** @var null|\App\Models\User $user */
             $user = Auth::user();
 
             if ($user) {
@@ -34,6 +32,7 @@ class AvatarController extends Controller
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 409);
         }
+
         return new UserResource($user);
     }
 }

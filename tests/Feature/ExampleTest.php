@@ -1,17 +1,21 @@
 <?php
 
+/** @noinspection PhpUnnecessaryStaticReferenceInspection */
+
 namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class ExampleTest extends TestCase
 {
     /**
      * A basic test example.
-     *
-     * @return void
      */
-    public function test_example()
+    public function test_example(): void
     {
         $response = $this->get('/');
 

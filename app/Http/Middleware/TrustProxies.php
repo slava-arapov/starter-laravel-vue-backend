@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpClassConstantAccessedViaChildClassInspection */
+<?php
+
+/** @noinspection PhpClassConstantAccessedViaChildClassInspection */
 
 namespace App\Http\Middleware;
 
@@ -10,7 +12,7 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
-     * @var array|string|null
+     * @var null|array|string
      */
     protected $proxies;
 

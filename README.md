@@ -11,7 +11,7 @@ The starter is decoupled into two parts:
 * [Laravel Sail](https://laravel.com/docs/8.x/sail)
 * [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
 * [Laravel Fortify](https://laravel.com/docs/8.x/fortify)
-* [Laravel Telescope](https://laravel.com/docs/8.x/telescope)
+* [Laravel Telescope](https://laravel.com/docs/8.x/telescope) is available for admins
 * [Eloquent API Resources](https://laravel.com/docs/8.x/eloquent-resources) used to build API
 * Image Processing using Intervention Image (Dockerfiles modified to install imagick extension)
 

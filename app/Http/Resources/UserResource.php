@@ -5,10 +5,10 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $email
- * @property integer $email_verified_at
+ * @property int $email_verified_at
  * @property string $avatar
  * @property string $password
  * @property string $two_factor_secret
@@ -17,14 +17,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $remember_token
  * @property string $created_at
  * @property string $updated_at
- * @method boolean isAdmin()
+ *
+ * @method bool isAdmin()
  */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      * @noinspection PhpReturnDocTypeMismatchInspection
      */

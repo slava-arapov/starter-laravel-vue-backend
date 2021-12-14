@@ -15,12 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        /** @var User|null $currentUser */
+        /** @var null|User $currentUser */
         $currentUser = Auth::user();
-        if ($currentUser !== null && $currentUser->isAdmin()) {
+        if (null !== $currentUser && $currentUser->isAdmin()) {
             return UserResource::collection(User::paginate(10));
         }
-        return response()->json(["message" => "Forbidden"], 403);
+
+        return response()->json(['message' => 'Forbidden'], 403);
     }
 
     /**
@@ -30,12 +31,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        /** @var User|null $currentUser */
+        /** @var null|User $currentUser */
         $currentUser = Auth::user();
-        if ($currentUser !== null && $currentUser->isAdmin()) {
+        if (null !== $currentUser && $currentUser->isAdmin()) {
             return new UserResource($user);
         }
-        return  response()->json(["message" => "Forbidden"], 403);
-    }
 
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
 }

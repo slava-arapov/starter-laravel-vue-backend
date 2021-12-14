@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -9,16 +10,9 @@ use Illuminate\Validation\ValidationException;
 
 class TokenController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    /** @throws \Illuminate\Validation\ValidationException */
     public function __invoke(Request $request): JsonResponse
     {
-        /**
-         * @method static $request string email
-         */
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',

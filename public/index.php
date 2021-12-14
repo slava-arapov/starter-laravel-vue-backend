@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIncludeInspection */
+<?php
+
+/** @noinspection PhpIncludeInspection */
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
