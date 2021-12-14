@@ -101,6 +101,26 @@ Now you can browse the site at http://localhost
 sail stop
 ```
 
+### Static Code Analysis Tools
+
+You can run some tools 
+
+``` shell
+# PHPStan/Larastan
+sail composer phpstan
+
+# Psalm
+sail composer psalm
+
+# PHP Coding Standards Fixer (dry run)
+sail composer php-cs-fixer-validate
+
+# PHP Coding Standards Fixer (fix)
+sail composer php-cs-fixer
+```
+
+You can customize scripts in `composer.json` and rules in `phpstan.neon`, `psalm.xml`, `.php-cs-fixer.php` config files. 
+
 ## Credits
 This starter is designed using the instructions at https://laravelvuespa.com. I highly recommend to check out this resource and to support [@garethredfern](https://github.com/garethredfern).
 

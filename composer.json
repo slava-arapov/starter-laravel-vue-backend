@@ -57,7 +57,26 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "psalm": "vendor/bin/psalm --config=psalm.xml"
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=2G",
+        "psalm": "./vendor/bin/psalm --config=psalm.xml --show-info=true --threads=8",
+        "php-cs-fixer-validate": [
+            "./vendor/bin/php-cs-fixer fix -vvv --dry-run --show-progress=dots"
+        ],
+        "php-cs-fixer": [
+            "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots"
+        ],
+        "code-quality": [
+            "@phpstan",
+            "@psalm",
+            "@php-cs-fixer-validate"
+        ]
+    },
+    "scripts-descriptions": {
+        "phpstan": "Run PHPStan/Larastan",
+        "psalm": "Run Psalm",
+        "php-cs-fixer-validate": "Run PHP Coding Standards Fixer (dry run)",
+        "php-cs-fixer": "Run PHP Coding Standards Fixer (fix)",
+        "code-quality": "Run PHPStan, Psalm, PHP CS Fixer"
     },
     "extra": {
         "laravel": {
