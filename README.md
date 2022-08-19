@@ -7,16 +7,17 @@ The starter is decoupled into two parts:
 -  [Frontend Vue.js SPA](https://github.com/slava-arapov/starter-laravel-vue-frontend/)
 
 ## Features and Dependencies
-* Laravel 8
+* Laravel 9
 * [Laravel Sail](https://laravel.com/docs/8.x/sail)
 * [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
 * [Laravel Fortify](https://laravel.com/docs/8.x/fortify)
 * [Laravel Telescope](https://laravel.com/docs/8.x/telescope) is available for admins
 * [Eloquent API Resources](https://laravel.com/docs/8.x/eloquent-resources) used to build API
 * Image Processing using Intervention Image (Dockerfiles modified to install imagick extension)
+* [PHPStan](https://phpstan.org/) / [Larastan](https://github.com/nunomaduro/larastan), [Psalm](https://psalm.dev/), [PHP Coding Standards Fixer](https://cs.symfony.com/) static code analysis tools
 
 ## System Requirements
-* PHP >= 8.0
+* PHP >= 8.0.2
 * PHP Extensions: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML, cURL, GD, Imagick
 * Composer >= 1.9.x
 
