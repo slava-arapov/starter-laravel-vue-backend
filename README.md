@@ -1,4 +1,4 @@
-# Laravel/Vue 2 Starter (Frontend)
+# Laravel/Vue 2 Starter (Backend)
 This template is designed for a quick start of a new Laravel/Vue project.
 
 The starter is decoupled into two parts:
@@ -54,10 +54,10 @@ The starter is decoupled into two parts:
    MAIL_FROM_ADDRESS=mail@yourappname.com
    
    # Some Sanctum specific variables ↓
-   SANCTUM_STATEFUL_DOMAINS=localhost:8080 # local development
+   SANCTUM_STATEFUL_DOMAINS=localhost:5173 # local development
    SANCTUM_STATEFUL_DOMAINS=yourappname.com # production
    
-   SPA_URL=http://localhost:8080 # local development
+   SPA_URL=http://localhost:5173 # local development
    SPA_URL=https://yourappname.com # production
    
    SESSION_DOMAIN=localhost # local development
