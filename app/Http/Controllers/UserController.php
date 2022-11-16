@@ -49,4 +49,21 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Forbidden'], 403);
     }
+
+    /**
+     * Deletes the specified resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(User $user)
+    {
+        /** @var null|User $currentUser */
+        $currentUser = Auth::user();
+        if (null !== $currentUser && $currentUser !== $user && $currentUser->isAdmin()) {
+            $user->delete();
+            return response()->json(null, 204);
+        }
+
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
 }
