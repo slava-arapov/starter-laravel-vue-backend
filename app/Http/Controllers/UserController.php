@@ -5,20 +5,30 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         /** @var null|User $currentUser */
         $currentUser = Auth::user();
         if (null !== $currentUser && $currentUser->isAdmin()) {
-            return UserResource::collection(User::paginate(10));
+            $itemsPerPage = 1;
+
+            $lastPage = User::paginate($itemsPerPage)->lastPage();
+
+            $request->merge([
+                'page' => min($request->input('page'), $lastPage)
+            ]);
+
+            return UserResource::collection(User::paginate($itemsPerPage));
         }
 
         return response()->json(['message' => 'Forbidden'], 403);
