@@ -51,6 +51,30 @@ class UserController extends Controller
     }
 
     /**
+     * Creates user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        /** @var null|User $currentUser */
+        $currentUser = Auth::user();
+        if (null !== $currentUser && $currentUser->isAdmin()) {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required'
+            ]);
+
+            $user = User::create($request->all());
+
+            return response()->json($user, 201);
+        }
+
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
+
+    /**
      * Deletes the specified resource.
      *
      * @return \Illuminate\Http\JsonResponse

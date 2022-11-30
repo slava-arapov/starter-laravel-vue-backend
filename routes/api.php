@@ -27,9 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/auth', AuthController::class);
 
-    Route::get('/users/{user}', [UserController::class, 'show']);
-    Route::delete('/users/{user}', [UserController::class, 'delete']);
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::post('/users/', [UserController::class, 'store']);
+    Route::delete('/users/{user}', [UserController::class, 'delete']);
 
     Route::post('/users/auth/avatar', [AvatarController::class, 'store']);
 });
