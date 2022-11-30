@@ -20,7 +20,7 @@ class UserController extends Controller
         /** @var null|User $currentUser */
         $currentUser = Auth::user();
         if (null !== $currentUser && $currentUser->isAdmin()) {
-            $itemsPerPage = 1;
+            $itemsPerPage = 10;
 
             $lastPage = User::paginate($itemsPerPage)->lastPage();
 
