@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -67,6 +68,41 @@ class UserController extends Controller
             ]);
 
             $user = User::create($request->all());
+
+            return response()->json($user, 201);
+        }
+
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
+
+    /**
+     * Updates user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, User $user)
+    {
+        /** @var null|User $currentUser */
+        $currentUser = Auth::user();
+        if (null !== $currentUser && $currentUser->isAdmin()) {
+            $request->validate([
+                'name' => 'required',
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users')->ignore($user->id),
+                ]
+            ]);
+
+            $user->update([
+                'name' => $request['name'],
+                'email' => $request['email'],
+            ]);
+
+            if ($request['password']) {
+                $user->password = \Hash::make($request['password']);
+                $user->save();
+            }
 
             return response()->json($user, 201);
         }
