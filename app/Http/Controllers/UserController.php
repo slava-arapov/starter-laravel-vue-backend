@@ -70,6 +70,11 @@ class UserController extends Controller
 
             $user = User::create($request->all());
 
+            if ($request['password']) {
+                $user->password = \Hash::make($request['password']);
+                $user->save();
+            }
+
             return response()->json($user, 201);
         }
 
