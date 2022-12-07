@@ -64,7 +64,8 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required',
                 'email' => 'required|email|unique:users',
-                'password' => 'required'
+                'password' => 'required',
+                'isAdmin' => 'boolean'
             ]);
 
             $user = User::create($request->all());
@@ -90,17 +91,24 @@ class UserController extends Controller
                 'email' => [
                     'required',
                     'email',
-                    Rule::unique('users')->ignore($user->id),
-                ]
+                    Rule::unique('users')->ignore($user->id)
+                ],
+                'isAdmin' => 'boolean'
             ]);
 
             $user->update([
                 'name' => $request['name'],
                 'email' => $request['email'],
+                'is_admin' => $request['isAdmin'],
             ]);
 
             if ($request['password']) {
                 $user->password = \Hash::make($request['password']);
+                $user->save();
+            }
+
+            if (isset($request['isAdmin'])) {
+                $user->is_admin = $request['isAdmin'];
                 $user->save();
             }
 
