@@ -18,37 +18,35 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        /** @var null|User $currentUser */
-        $currentUser = Auth::user();
-        if (null !== $currentUser && $currentUser->isAdmin()) {
-            $itemsPerPage = 10;
-
-            $lastPage = User::paginate($itemsPerPage)->lastPage();
-
-            $request->merge([
-                'page' => min($request->input('page'), $lastPage)
-            ]);
-
-            return UserResource::collection(User::paginate($itemsPerPage));
+        if ($request->user()->cannot('viewAny', User::class)) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(['message' => 'Forbidden'], 403);
+        $itemsPerPage = 10;
+
+        $lastPage = User::paginate($itemsPerPage)->lastPage();
+
+        $request->merge([
+            'page' => min($request->input('page'), $lastPage)
+        ]);
+
+        return UserResource::collection(User::paginate($itemsPerPage));
     }
 
     /**
      * Display the specified resource.
      *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \App\Http\Resources\UserResource|\Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function show(Request $request, User $user): UserResource|\Illuminate\Http\JsonResponse
     {
-        /** @var null|User $currentUser */
-        $currentUser = Auth::user();
-        if (null !== $currentUser && $currentUser->isAdmin()) {
-            return new UserResource($user);
+        if ($request->user()->cannot('view', $user)) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(['message' => 'Forbidden'], 403);
+        return new UserResource($user);
     }
 
     /**
@@ -58,27 +56,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        /** @var null|User $currentUser */
-        $currentUser = Auth::user();
-        if (null !== $currentUser && $currentUser->isAdmin()) {
-            $request->validate([
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required',
-                'isAdmin' => 'boolean'
-            ]);
-
-            $user = User::create($request->all());
-
-            if ($request['password']) {
-                $user->password = \Hash::make($request['password']);
-                $user->save();
-            }
-
-            return response()->json($user, 201);
+        if ($request->user()->cannot('create', User::class)) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(['message' => 'Forbidden'], 403);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'isAdmin' => 'boolean'
+        ]);
+
+        $user = User::create($request->all());
+
+        if ($request['password']) {
+            $user->password = \Hash::make($request['password']);
+            $user->save();
+        }
+
+        return response()->json($user, 201);
     }
 
     /**
@@ -88,39 +84,37 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        /** @var null|User $currentUser */
-        $currentUser = Auth::user();
-        if (null !== $currentUser && $currentUser->isAdmin()) {
-            $request->validate([
-                'name' => 'required',
-                'email' => [
-                    'required',
-                    'email',
-                    Rule::unique('users')->ignore($user->id)
-                ],
-                'isAdmin' => 'boolean'
-            ]);
-
-            $user->update([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'is_admin' => $request['isAdmin'],
-            ]);
-
-            if ($request['password']) {
-                $user->password = \Hash::make($request['password']);
-                $user->save();
-            }
-
-            if (isset($request['isAdmin'])) {
-                $user->is_admin = $request['isAdmin'];
-                $user->save();
-            }
-
-            return response()->json($user, 201);
+        if ($request->user()->cannot('update', $user)) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(['message' => 'Forbidden'], 403);
+        $request->validate([
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'isAdmin' => 'boolean'
+        ]);
+
+        $user->update([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'is_admin' => $request['isAdmin'],
+        ]);
+
+        if ($request['password']) {
+            $user->password = \Hash::make($request['password']);
+            $user->save();
+        }
+
+        if (isset($request['isAdmin'])) {
+            $user->is_admin = $request['isAdmin'];
+            $user->save();
+        }
+
+        return response()->json($user, 201);
     }
 
     /**
@@ -128,15 +122,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(User $user)
+    public function delete(Request $request, User $user)
     {
-        /** @var null|User $currentUser */
-        $currentUser = Auth::user();
-        if (null !== $currentUser && $currentUser !== $user && $currentUser->isAdmin()) {
-            $user->delete();
-            return response()->json(null, 204);
+        if ($request->user()->cannot('delete', $user)) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(['message' => 'Forbidden'], 403);
+        $user->delete();
+        return response()->json(null, 204);
     }
 }
