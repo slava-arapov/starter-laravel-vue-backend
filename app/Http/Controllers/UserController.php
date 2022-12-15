@@ -122,7 +122,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(Request $request, User $user)
+    public function destroy(Request $request, User $user)
     {
         if ($request->user()->cannot('delete', $user)) {
             return response()->json(['message' => 'Forbidden'], 403);
