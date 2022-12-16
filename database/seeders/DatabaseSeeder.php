@@ -13,14 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create(
+        $user = User::factory(1)->create(
             [
                 'name' => 'Super Admin',
                 'email' => 'superadmin@yourappname.com',
                 'password' => Hash::make('super-admin-pass'),
-                'is_admin' => true,
                 'email_verified_at' => null,
             ]
         );
+
+        $user->assignRole('admin');
     }
 }

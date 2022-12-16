@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int $id
@@ -17,7 +18,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $password
  * @property string $two_factor_secret
  * @property string $two_factor_recovery_codes
- * @property bool $is_admin
  * @property string $remember_token
  * @property string $created_at
  * @property string $updated_at
@@ -49,6 +49,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
+    use HasRoles;
     use HasFactory;
     use Notifiable;
 
@@ -81,11 +82,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean',
     ];
 
     public function isAdmin(): bool
     {
-        return $this->is_admin;
+        return $this->hasRole('admin');
     }
 }

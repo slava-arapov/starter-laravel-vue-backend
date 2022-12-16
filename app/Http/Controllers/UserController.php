@@ -74,6 +74,14 @@ class UserController extends Controller
             $user->save();
         }
 
+        if (isset($request['isAdmin']) && $request['isAdmin']) {
+            $user->assignRole('admin');
+        }
+
+        if (isset($request['isAdmin']) && !$request['isAdmin']) {
+            $user->removeRole('admin');
+        }
+
         return response()->json($user, 201);
     }
 
@@ -101,7 +109,6 @@ class UserController extends Controller
         $user->update([
             'name' => $request['name'],
             'email' => $request['email'],
-            'is_admin' => $request['isAdmin'],
         ]);
 
         if ($request['password']) {
@@ -109,9 +116,12 @@ class UserController extends Controller
             $user->save();
         }
 
-        if (isset($request['isAdmin'])) {
-            $user->is_admin = $request['isAdmin'];
-            $user->save();
+        if (isset($request['isAdmin']) && $request['isAdmin']) {
+            $user->assignRole('admin');
+        }
+
+        if (isset($request['isAdmin']) && !$request['isAdmin']) {
+            $user->removeRole('admin');
         }
 
         return response()->json($user, 201);

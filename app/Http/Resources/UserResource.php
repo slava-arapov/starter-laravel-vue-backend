@@ -13,7 +13,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $password
  * @property string $two_factor_secret
  * @property string $two_factor_recovery_codes
- * @property bool $is_admin
  * @property string $remember_token
  * @property string $created_at
  * @property string $updated_at
