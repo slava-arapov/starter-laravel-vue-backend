@@ -14,7 +14,7 @@ The starter is decoupled into two parts:
 * [Laravel Telescope](https://laravel.com/docs/8.x/telescope) is available for admins
 * [Eloquent API Resources](https://laravel.com/docs/8.x/eloquent-resources) used to build API
 * Image Processing using Intervention Image (Dockerfiles modified to install imagick extension)
-* [PHPStan](https://phpstan.org/) / [Larastan](https://github.com/nunomaduro/larastan), [Psalm](https://psalm.dev/), [PHP Coding Standards Fixer](https://cs.symfony.com/) static code analysis tools
+* [PHPStan](https://phpstan.org/) / [Larastan](https://github.com/nunomaduro/larastan), [Psalm](https://psalm.dev/), [PHP Coding Standards Fixer](https://cs.symfony.com/), [Rector](https://github.com/rectorphp/rector) static code analysis tools
 
 ## System Requirements
 * PHP >= 8.0.2
@@ -118,6 +118,12 @@ sail composer php-cs-fixer-validate
 
 # PHP Coding Standards Fixer (fix)
 sail composer php-cs-fixer
+
+# Rector (dry run)
+sail composer rector-validate
+
+# Rector (fix)
+sail composer rector
 ```
 
 You can customize scripts in `composer.json` and rules in `phpstan.neon`, `psalm.xml`, `.php-cs-fixer.php` config files. 
